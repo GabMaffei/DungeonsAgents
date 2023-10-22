@@ -20,32 +20,32 @@ public class DungeonsAgents extends ApplicationAdapter {
 	private SpriteBatch batch;
 //	Textures and sprites
 	private Texture background;
-	private Sprite sprite_hero_one;
+	private Sprite spriteHeroOne;
 //  Animations:
-	private Animation<TextureRegion> archer_animation;
-	private Animation<TextureRegion> swordsman_animation;
-	private TextureRegion archer_current_frame;
-	private TextureRegion swordsman_current_frame;
+	private Animation<TextureRegion> archerAnimation;
+	private Animation<TextureRegion> swordsmanAnimation;
+	private TextureRegion archerCurrentFrame;
+	private TextureRegion swordsmanCurrentFrame;
 	private float stateTime;
 //	Rectangles, collision and entities
 	private Rectangle archer;
-	private int archer_state;
+	private int archerState;
 	private Rectangle swordsman;
-	private int swordsman_state;
+	private int swordsmanState;
 //  Music and sound effects
 	private Music battlemusic;
-	private float master_volume;
+	private float masterVolume;
 
-	public void volume_control(boolean volume_knob){
-		if(volume_knob) {
-			if(master_volume - 0.1f * Gdx.graphics.getDeltaTime() <= 1.0f) master_volume += 0.1f * Gdx.graphics.getDeltaTime();
+	public void volumeControl(boolean volumeKnob){
+		if(volumeKnob) {
+			if(masterVolume - 0.1f * Gdx.graphics.getDeltaTime() <= 1.0f) masterVolume += 0.1f * Gdx.graphics.getDeltaTime();
 		} else {
-			if(master_volume - 0.1f * Gdx.graphics.getDeltaTime() >= 0.0f) master_volume -= 0.1f * Gdx.graphics.getDeltaTime();
+			if(masterVolume - 0.1f * Gdx.graphics.getDeltaTime() >= 0.0f) masterVolume -= 0.1f * Gdx.graphics.getDeltaTime();
 		}
-		this.battlemusic.setVolume(master_volume);
+		this.battlemusic.setVolume(masterVolume);
 	}
 
-	public Animation<TextureRegion> load_animation_sprite_sheet(String internal_file_name, int frame_cols, int frame_rows, float frame_duration){
+	public Animation<TextureRegion> loadAnimationSpriteSheet(String internal_file_name, int frame_cols, int frame_rows, float frame_duration){
 		// Load the sprite sheet as a Texture
 		Texture walkSheet = new Texture(Gdx.files.internal(internal_file_name));
 
@@ -86,8 +86,8 @@ public class DungeonsAgents extends ApplicationAdapter {
 //		sprite_hero_one.setPosition(10, 10);
 
 		// animations
-		archer_animation = load_animation_sprite_sheet("Heroes/Archer/Idle.png", 6, 1, 0.25f);
-		swordsman_animation = load_animation_sprite_sheet("Heroes/Swordsman/Idle.png", 8, 1, 0.25f);
+		archerAnimation = loadAnimationSpriteSheet("Heroes/Archer/Idle.png", 6, 1, 0.25f);
+		swordsmanAnimation = loadAnimationSpriteSheet("Heroes/Swordsman/Idle.png", 8, 1, 0.25f);
 		stateTime = 0f;
 
 		// rectangles
@@ -96,24 +96,24 @@ public class DungeonsAgents extends ApplicationAdapter {
 		archer.y = (int) camera.viewportHeight / 4;
 		archer.width = 128;
 		archer.height = 128;
-		archer_state = 0;
+		archerState = 0;
 
 		swordsman = new Rectangle();
 		swordsman.x = (int) camera.viewportWidth / 4;
 		swordsman.y = (int) ((camera.viewportHeight / 4) * 1.8);
 		swordsman.width = 128;
 		swordsman.height = 128;
-		swordsman_state = 0;
+		swordsmanState = 0;
 
 		// load the drop sound effect and the rain background "music"
 //		dropSound = Gdx.audio.newSound(Gdx.files.internal("drop.wav"));
 		battlemusic = Gdx.audio.newMusic(Gdx.files.internal("battlemusic-yeah-18130.mp3"));
 
 		// start the playback of the background music immediately
-		master_volume = 0.1f;
+		masterVolume = 0.1f;
 		battlemusic.setLooping(true);
 		battlemusic.play();
-		battlemusic.setVolume(master_volume);
+		battlemusic.setVolume(masterVolume);
 
 	}
 
@@ -126,24 +126,24 @@ public class DungeonsAgents extends ApplicationAdapter {
 		stateTime += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
 
 		// Animations: Get current frame of animation for the current stateTime
-		switch (archer_state){
-			case 0: archer_current_frame = archer_animation.getKeyFrame(stateTime, true);
+		switch (archerState){
+			case 0: archerCurrentFrame = archerAnimation.getKeyFrame(stateTime, true);
 		}
-		switch (swordsman_state){
-			case 0: swordsman_current_frame = swordsman_animation.getKeyFrame(stateTime, true);
+		switch (swordsmanState){
+			case 0: swordsmanCurrentFrame = swordsmanAnimation.getKeyFrame(stateTime, true);
 		}
 
 		// Start rendering
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		batch.draw(background, 0, 0);
-		switch (archer_state){
-			case 0: batch.draw(archer_current_frame, archer.x, archer.y);
-			case 1: batch.draw(archer_current_frame, archer.x, archer.y);
+		switch (archerState){
+			case 0: batch.draw(archerCurrentFrame, archer.x, archer.y);
+			case 1: batch.draw(archerCurrentFrame, archer.x, archer.y);
 		}
-		switch (swordsman_state){
-			case 0: batch.draw(swordsman_current_frame, swordsman.x, swordsman.y);
-			case 1: batch.draw(swordsman_current_frame, swordsman.x, swordsman.y);
+		switch (swordsmanState){
+			case 0: batch.draw(swordsmanCurrentFrame, swordsman.x, swordsman.y);
+			case 1: batch.draw(swordsmanCurrentFrame, swordsman.x, swordsman.y);
 		}
 //		sprite_hero_one.draw(batch);
 
@@ -151,8 +151,8 @@ public class DungeonsAgents extends ApplicationAdapter {
 		batch.end();
 
 		// Game logic
-		if(Gdx.input.isKeyPressed(Input.Keys.MINUS)) volume_control(false);
-		if(Gdx.input.isKeyPressed(Input.Keys.PLUS) || Gdx.input.isKeyPressed(Input.Keys.EQUALS)) volume_control(true);
+		if(Gdx.input.isKeyPressed(Input.Keys.MINUS)) volumeControl(false);
+		if(Gdx.input.isKeyPressed(Input.Keys.PLUS) || Gdx.input.isKeyPressed(Input.Keys.EQUALS)) volumeControl(true);
 
 	}
 	
