@@ -12,6 +12,8 @@ public class DesktopLauncher {
 		config.useVsync(true);
 		config.setTitle("Dungeons & Agents");
 		config.setForegroundFPS(60);
+		int samples = 2; // you can also play around with higher values like 4
+		config.setBackBufferConfig(8, 8, 8, 8, 16, 0, samples); // 8, 8, 8, 8, 16, 0 are default values
 		new Lwjgl3Application(new DungeonsAgents(), config);
 	}
 }
