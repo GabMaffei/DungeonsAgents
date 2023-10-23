@@ -127,10 +127,14 @@ public class DungeonsAgents extends ApplicationAdapter {
 
 		// Animations: Get current frame of animation for the current stateTime
 		switch (archerState){
-			case 0: archerCurrentFrame = archerAnimation.getKeyFrame(stateTime, true);
+			case 0:
+				archerCurrentFrame = archerAnimation.getKeyFrame(stateTime, true);
+				break;
 		}
 		switch (swordsmanState){
-			case 0: swordsmanCurrentFrame = swordsmanAnimation.getKeyFrame(stateTime, true);
+			case 0:
+				swordsmanCurrentFrame = swordsmanAnimation.getKeyFrame(stateTime, true);
+				break;
 		}
 
 		// Start rendering
@@ -138,12 +142,20 @@ public class DungeonsAgents extends ApplicationAdapter {
 		batch.begin();
 		batch.draw(background, 0, 0);
 		switch (archerState){
-			case 0: batch.draw(archerCurrentFrame, archer.x, archer.y);
-			case 1: batch.draw(archerCurrentFrame, archer.x, archer.y);
+			case 0:
+				batch.draw(archerCurrentFrame, archer.x, archer.y);
+				break;
+			case 1:
+				batch.draw(archerCurrentFrame, archer.x, archer.y);
+				break;
 		}
 		switch (swordsmanState){
-			case 0: batch.draw(swordsmanCurrentFrame, swordsman.x, swordsman.y);
-			case 1: batch.draw(swordsmanCurrentFrame, swordsman.x, swordsman.y);
+			case 0:
+				batch.draw(swordsmanCurrentFrame, swordsman.x, swordsman.y);
+				break;
+			case 1:
+				batch.draw(swordsmanCurrentFrame, swordsman.x, swordsman.y);
+				break;
 		}
 //		sprite_hero_one.draw(batch);
 
