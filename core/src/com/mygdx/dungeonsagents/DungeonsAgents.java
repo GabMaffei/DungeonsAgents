@@ -35,7 +35,8 @@ public class DungeonsAgents extends ApplicationAdapter {
 //  Music and sound effects
 	private Music battlemusic;
 	private float masterVolume;
-	private Entity hero3;
+	private Entity hero1, hero2, hero3;
+	private Entity enemy1, enemy2, enemy3;
 
 	public void volumeControl(boolean volumeKnob){
 		if(volumeKnob) {
@@ -80,41 +81,28 @@ public class DungeonsAgents extends ApplicationAdapter {
 
 		// textures
 		background = new Texture(Gdx.files.internal("background.png"));
-//		Texture tex_hero_one = new Texture(Gdx.files.internal("Heroes/Archer/Idle.png"));
 
 		// sprites
 //		sprite_hero_one = new Sprite(tex_hero_one, 0, 0, 128, 128);
 //		sprite_hero_one.setPosition(10, 10);
 
 		// animations
-		archerAnimation = loadAnimationSpriteSheet("Heroes/Archer/Idle.png", 6, 1, 0.25f);
-		swordsmanAnimation = loadAnimationSpriteSheet("Heroes/Swordsman/Idle.png", 8, 1, 0.25f);
 		stateTime = 0f;
 
-		// rectangles
-		archer = new Rectangle();
-		archer.x = (int) camera.viewportWidth / 4;
-		archer.y = (int) camera.viewportHeight / 4;
-		archer.width = 128;
-		archer.height = 128;
-		archerState = 0;
-
-		swordsman = new Rectangle();
-		swordsman.x = (int) camera.viewportWidth / 4;
-		swordsman.y = (int) ((camera.viewportHeight / 4) * 1.8);
-		swordsman.width = 128;
-		swordsman.height = 128;
-		swordsmanState = 0;
-
 		// entities
+		hero1 = new Entity(true, 0, 0, camera.viewportWidth, camera.viewportHeight);
+		hero2 = new Entity(true, 1, 1, camera.viewportWidth, camera.viewportHeight);
 		hero3 = new Entity(true, 2, 2, camera.viewportWidth, camera.viewportHeight);
+		enemy1 = new Entity(false, 0, 0, camera.viewportWidth, camera.viewportHeight);
+		enemy2 = new Entity(false, 1, 1, camera.viewportWidth, camera.viewportHeight);
+		enemy3 = new Entity(false, 2, 2, camera.viewportWidth, camera.viewportHeight);
 
 		// load the drop sound effect and the rain background "music"
 //		dropSound = Gdx.audio.newSound(Gdx.files.internal("drop.wav"));
 		battlemusic = Gdx.audio.newMusic(Gdx.files.internal("battlemusic-yeah-18130.mp3"));
 
 		// start the playback of the background music immediately
-		masterVolume = 0.1f;
+		masterVolume = 0.05f;
 		battlemusic.setLooping(true);
 		battlemusic.play();
 		battlemusic.setVolume(masterVolume);
@@ -128,41 +116,30 @@ public class DungeonsAgents extends ApplicationAdapter {
 		// Update current camera and time deltas
 		camera.update();
 		stateTime += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
-		hero3.currentFrame = hero3.currentAnimation.getKeyFrame(stateTime, true);
 
 		// Animations: Get current frame of animation for the current stateTime
-		switch (archerState){
-			case 0:
-				archerCurrentFrame = archerAnimation.getKeyFrame(stateTime, true);
-				break;
+		if (hero1.isLooping()){
+			hero1.currentFrame = hero1.currentAnimation.getKeyFrame(stateTime, hero1.isLooping());
 		}
-		switch (swordsmanState){
-			case 0:
-				swordsmanCurrentFrame = swordsmanAnimation.getKeyFrame(stateTime, true);
-				break;
+		else {
+			hero1.currentFrame = hero1.currentAnimation.getKeyFrame(stateTime);
 		}
+		hero2.currentFrame = hero2.currentAnimation.getKeyFrame(stateTime, hero2.isLooping());
+		hero3.currentFrame = hero3.currentAnimation.getKeyFrame(stateTime, hero3.isLooping());
+		enemy1.currentFrame = enemy1.currentAnimation.getKeyFrame(stateTime, enemy1.isLooping());
+		enemy2.currentFrame = enemy2.currentAnimation.getKeyFrame(stateTime, enemy2.isLooping());
+		enemy3.currentFrame = enemy3.currentAnimation.getKeyFrame(stateTime, enemy3.isLooping());
 
 		// Start rendering
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		batch.draw(background, 0, 0);
+		batch.draw(hero1.currentFrame, hero1.getPosition().x, hero1.getPosition().y);
+		batch.draw(hero2.currentFrame, hero2.getPosition().x, hero2.getPosition().y);
 		batch.draw(hero3.currentFrame, hero3.getPosition().x, hero3.getPosition().y);
-		switch (archerState){
-			case 0:
-				batch.draw(archerCurrentFrame, archer.x, archer.y);
-				break;
-			case 1:
-				batch.draw(archerCurrentFrame, archer.x, archer.y);
-				break;
-		}
-		switch (swordsmanState){
-			case 0:
-				batch.draw(swordsmanCurrentFrame, swordsman.x, swordsman.y);
-				break;
-			case 1:
-				batch.draw(swordsmanCurrentFrame, swordsman.x, swordsman.y);
-				break;
-		}
+		batch.draw(enemy1.currentFrame, enemy1.getPosition().x, enemy1.getPosition().y);
+		batch.draw(enemy2.currentFrame, enemy2.getPosition().x, enemy2.getPosition().y);
+		batch.draw(enemy3.currentFrame, enemy3.getPosition().x, enemy3.getPosition().y);
 //		sprite_hero_one.draw(batch);
 
 		// End rendering
@@ -171,6 +148,11 @@ public class DungeonsAgents extends ApplicationAdapter {
 		// Game logic
 		if(Gdx.input.isKeyPressed(Input.Keys.MINUS)) volumeControl(false);
 		if(Gdx.input.isKeyPressed(Input.Keys.PLUS) || Gdx.input.isKeyPressed(Input.Keys.EQUALS)) volumeControl(true);
+		if(Gdx.input.isKeyPressed(Input.Keys.NUM_1)) hero1.setAnimationState(2);
+
+		if(hero1.currentAnimation.isAnimationFinished(stateTime) && hero1.getAnimationState() != 0){  //condition false
+			hero1.setAnimationState(0);
+		}
 
 	}
 	

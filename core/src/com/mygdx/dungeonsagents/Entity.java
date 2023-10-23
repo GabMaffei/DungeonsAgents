@@ -18,6 +18,7 @@ public class Entity {
     private final int fightingClass;
     private Rectangle position;
     private int animationState;
+    private boolean looping;
     public Animation<TextureRegion> currentAnimation;
     public TextureRegion currentFrame;
 
@@ -26,8 +27,15 @@ public class Entity {
         this.placement = placement;
         this.fightingClass = fightingClass;
         this.animationState = 0;
+        this.looping = true;
         this.createPosition(viewportWidth, viewportHeight);
         this.loadAnimations();
+    }
+
+    public void setAnimationState(int animationState) {
+        this.animationState = animationState;
+        this.loadAnimations();
+//        this.looping = animationState == 0;
     }
 
     private String getFightingClassName(){
@@ -104,6 +112,9 @@ public class Entity {
                         case 0: //Idle
                             listColsRows.add(6);
                             listColsRows.add(1);
+                        case 2: //Attack_1
+                            listColsRows.add(4);
+                            listColsRows.add(1);
                         default:
                             listColsRows.add(6);
                             listColsRows.add(1);
@@ -172,23 +183,6 @@ public class Entity {
         List<Integer> frameColsRows= this.getFrameColsRows();
         int frame_cols = frameColsRows.get(0);
         int frame_rows = frameColsRows.get(1);
-//        switch (this.fightingClass){
-//            case 0:
-////                internal_file_name = "Heroes/Archer/Idle.png";
-//                frame_cols = 6;
-//                frame_rows = 1;
-//                break;
-//            case 1:
-////                internal_file_name = "Heroes/Swordsman/Idle.png";
-//                frame_cols = 8;
-//                frame_rows = 1;
-//                break;
-//            default:
-////                internal_file_name = "Heroes/Archer/Idle.png";
-//                frame_cols = 6;
-//                frame_rows = 1;
-//                break;
-//        }
 
         // Load the sprite sheet as a Texture
         Texture walkSheet = new Texture(Gdx.files.internal(internal_file_name));
@@ -213,51 +207,6 @@ public class Entity {
         // Initialize the Animation with the frame interval and array of frames
         currentAnimation = new Animation<TextureRegion>(0.25f, walkFrames);
     }
-
-//    private void loadAnimations(){
-//        String internal_file_name;
-//        int frame_cols, frame_rows;
-//        switch (this.fightingClass){
-//            case 0:
-//                internal_file_name = "Heroes/Archer/Idle.png";
-//                frame_cols = 6;
-//                frame_rows = 1;
-//                break;
-//            case 1:
-//                internal_file_name = "Heroes/Swordsman/Idle.png";
-//                frame_cols = 8;
-//                frame_rows = 1;
-//                break;
-//            default:
-//                internal_file_name = "Heroes/Archer/Idle.png";
-//                frame_cols = 6;
-//                frame_rows = 1;
-//                break;
-//        }
-//
-//        // Load the sprite sheet as a Texture
-//        Texture walkSheet = new Texture(Gdx.files.internal(internal_file_name));
-//
-//        // Use the split utility method to create a 2D array of TextureRegions. This is
-//        // possible because this sprite sheet contains frames of equal size and they are
-//        // all aligned.
-//        TextureRegion[][] tmp = TextureRegion.split(walkSheet,
-//                walkSheet.getWidth() / frame_cols,
-//                walkSheet.getHeight() / frame_rows);
-//
-//        // Place the regions into a 1D array in the correct order, starting from the top
-//        // left, going across first. The Animation constructor requires a 1D array.
-//        TextureRegion[] walkFrames = new TextureRegion[frame_cols * frame_rows];
-//        int index = 0;
-//        for (int i = 0; i < frame_rows; i++) {
-//            for (int j = 0; j < frame_cols; j++) {
-//                walkFrames[index++] = tmp[i][j];
-//            }
-//        }
-//
-//        // Initialize the Animation with the frame interval and array of frames
-//        currentAnimation = new Animation<TextureRegion>(0.25f, walkFrames);
-//    }
 
     private void createPosition(float viewportWidth, float viewportHeight){
         this.position = new Rectangle();
@@ -310,19 +259,15 @@ public class Entity {
         return healthPoints;
     }
 
-    public boolean isAlly() {
-        return ally;
-    }
-
-    public int getPlacement() {
-        return placement;
-    }
-
-    public int getFightingClass() {
-        return fightingClass;
-    }
-
     public Rectangle getPosition() {
         return position;
+    }
+
+    public boolean isLooping() {
+        return looping;
+    }
+
+    public int getAnimationState() {
+        return animationState;
     }
 }
