@@ -35,6 +35,7 @@ public class DungeonsAgents extends ApplicationAdapter {
 //  Music and sound effects
 	private Music battlemusic;
 	private float masterVolume;
+	private Entity hero3;
 
 	public void volumeControl(boolean volumeKnob){
 		if(volumeKnob) {
@@ -105,6 +106,9 @@ public class DungeonsAgents extends ApplicationAdapter {
 		swordsman.height = 128;
 		swordsmanState = 0;
 
+		// entities
+		hero3 = new Entity(true, 2, 2, camera.viewportWidth, camera.viewportHeight);
+
 		// load the drop sound effect and the rain background "music"
 //		dropSound = Gdx.audio.newSound(Gdx.files.internal("drop.wav"));
 		battlemusic = Gdx.audio.newMusic(Gdx.files.internal("battlemusic-yeah-18130.mp3"));
@@ -124,6 +128,7 @@ public class DungeonsAgents extends ApplicationAdapter {
 		// Update current camera and time deltas
 		camera.update();
 		stateTime += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
+		hero3.currentFrame = hero3.currentAnimation.getKeyFrame(stateTime, true);
 
 		// Animations: Get current frame of animation for the current stateTime
 		switch (archerState){
@@ -141,6 +146,7 @@ public class DungeonsAgents extends ApplicationAdapter {
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		batch.draw(background, 0, 0);
+		batch.draw(hero3.currentFrame, hero3.getPosition().x, hero3.getPosition().y);
 		switch (archerState){
 			case 0:
 				batch.draw(archerCurrentFrame, archer.x, archer.y);
