@@ -127,6 +127,9 @@ public class Entity extends Agent {
                         case 2: //Attack_1
                             listColsRows.add(4);
                             listColsRows.add(1);
+                        case 8: //Dead
+                            listColsRows.add(3);
+                            listColsRows.add(1);
                         default:
                             listColsRows.add(6);
                             listColsRows.add(1);
@@ -137,6 +140,9 @@ public class Entity extends Agent {
                         case 0: //Idle
                             listColsRows.add(8);
                             listColsRows.add(1);
+                        case 8: //Dead
+                            listColsRows.add(3);
+                            listColsRows.add(1);
                         default:
                             listColsRows.add(6);
                             listColsRows.add(1);
@@ -146,6 +152,9 @@ public class Entity extends Agent {
                     switch (this.animationState) {
                         case 0: //Idle
                             listColsRows.add(6);
+                            listColsRows.add(1);
+                        case 8: //Dead
+                            listColsRows.add(4);
                             listColsRows.add(1);
                         default:
                             listColsRows.add(6);
@@ -160,6 +169,9 @@ public class Entity extends Agent {
                         case 0: //Idle
                             listColsRows.add(5);
                             listColsRows.add(1);
+                        case 8: //Dead
+                            listColsRows.add(4);
+                            listColsRows.add(1);
                         default:
                             listColsRows.add(5);
                             listColsRows.add(1);
@@ -170,6 +182,9 @@ public class Entity extends Agent {
                         case 0: //Idle
                             listColsRows.add(5);
                             listColsRows.add(1);
+                        case 8: //Dead
+                            listColsRows.add(4);
+                            listColsRows.add(1);
                         default:
                             listColsRows.add(5);
                             listColsRows.add(1);
@@ -178,6 +193,9 @@ public class Entity extends Agent {
                 case 2: //Orc_Shaman
                     switch (this.animationState) {
                         case 0: //Idle
+                            listColsRows.add(5);
+                            listColsRows.add(1);
+                        case 8: //Dead
                             listColsRows.add(5);
                             listColsRows.add(1);
                         default:
