@@ -20,6 +20,7 @@ import jade.wrapper.StaleProxyException;
 
 import java.awt.*;
 import java.util.HashMap;
+import java.util.List;
 
 public class DungeonsAgents extends ApplicationAdapter {
 //	Cameras and batches/SpriteBatches
@@ -102,12 +103,14 @@ public class DungeonsAgents extends ApplicationAdapter {
 
 		// entities
 
-		hero1 = new Entity(true, 0, 0, camera.viewportWidth, camera.viewportHeight, 50, 90, 25);
-		hero2 = new Entity(true, 1, 1, camera.viewportWidth, camera.viewportHeight, 70, 80, 30);
-		hero3 = new Entity(true, 2, 2, camera.viewportWidth, camera.viewportHeight, 40, 100, 20);
-		enemy1 = new Entity(false, 0, 0, camera.viewportWidth, camera.viewportHeight, 50, 90, 25);
-		enemy2 = new Entity(false, 1, 1, camera.viewportWidth, camera.viewportHeight, 70, 80, 30);
-		enemy3 = new Entity(false, 2, 2, camera.viewportWidth, camera.viewportHeight, 40, 100, 20);
+		float[] iniciativas = Utils.calcularIniciativa();
+
+		hero1 = new Entity(true, 0, 0, camera.viewportWidth, camera.viewportHeight, 50, 90, 25,0, iniciativas[0]);
+		hero2 = new Entity(true, 1, 1, camera.viewportWidth, camera.viewportHeight, 70, 80, 30,0, iniciativas[1]);
+		hero3 = new Entity(true, 2, 2, camera.viewportWidth, camera.viewportHeight, 40, 100, 20,0, iniciativas[2]);
+		enemy1 = new Entity(false, 0, 0, camera.viewportWidth, camera.viewportHeight, 50, 90, 25,0, iniciativas[3]);
+		enemy2 = new Entity(false, 1, 1, camera.viewportWidth, camera.viewportHeight, 70, 80, 30,0, iniciativas[4]);
+		enemy3 = new Entity(false, 2, 2, camera.viewportWidth, camera.viewportHeight, 40, 100, 20,0, iniciativas[5]);
 
 		font = new BitmapFont();
 

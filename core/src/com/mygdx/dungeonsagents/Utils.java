@@ -1,5 +1,7 @@
 package com.mygdx.dungeonsagents;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Utils {
@@ -44,8 +46,8 @@ public class Utils {
             return vidaAtual;
         } else {
             float danoCausado = dano - def;
-            if(area){
-                danoCausado = danoCausado/3;
+            if (area) {
+                danoCausado = danoCausado / 3;
             }
 
             vidaAtual = Math.round(vidaAtual - danoCausado);
@@ -58,5 +60,22 @@ public class Utils {
     public static String ExibeResultadoAtaque(String mensagem) {
         // Implementar chamada da interface gráfica
         return mensagem;
+    }
+
+    public static float[] calcularIniciativa() {
+        float[] iniciativas = new float[6];
+        int count = 0;
+
+        for (count = 0; count < 6; count++) {
+            if (count == 0 || count == 3) {
+                iniciativas[count] = 0.9f * D20();
+            } else if (count == 1 || count == 4) {
+                iniciativas[count] = 0.8f * D20();
+            } else {
+                iniciativas[count] = 1.0f * D20();
+            }
+        }
+
+        return iniciativas;
     }
 }
