@@ -4,3 +4,10 @@ sourceCompatibility = 1.8
 sourceSets.main.java.srcDirs = [ "src/" ]
 
 eclipse.project.name = appName + "-core"
+
+dependencies {
+//    implementation name: 'jade'
+    implementation files('libs/jade.jar')
+    // Your might already have other librarires/dependencies here you should leave them
+    // as they are and just add your on new line
+}

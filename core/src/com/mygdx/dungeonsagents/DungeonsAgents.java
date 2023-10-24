@@ -11,6 +11,12 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.ScreenUtils;
+import jade.core.Profile;
+import jade.core.ProfileImpl;
+//import jade.tools.rma.rma;
+//import jade.wrapper.AgentController;
+//import jade.wrapper.ContainerController;
+//import jade.wrapper.StaleProxyException;
 
 import java.awt.*;
 
@@ -106,6 +112,23 @@ public class DungeonsAgents extends ApplicationAdapter {
 		battlemusic.setLooping(true);
 		battlemusic.play();
 		battlemusic.setVolume(masterVolume);
+
+		Profile profile = new ProfileImpl();
+//		profile.setParameter(Profile.GUI, "true"); // Enable the JADE GUI
+////		ContainerController container = Runtime..createMainContainer(profile);
+
+//		try {
+//			// Start your JADE agents
+////			AgentController myAgent = container.createNewAgent("myAgent", "com.example.MyAgent", new Object[0]);
+////			myAgent.start();
+//
+//			// Start the JADE GUI
+//			rma r = new rma();
+//			r.join();
+//			// -gui Aliado1:Mago;Aliado2:Mago;Aliado3:Mago;Inimigo1:GoblinGuerreiro;Inimigo2:GoblinGuerreiro;Inimigo3:GoblinGuerreiro;Mestre:Mestre;
+//		} catch (StaleProxyException e) {
+//			e.printStackTrace();
+//		}
 
 	}
 
