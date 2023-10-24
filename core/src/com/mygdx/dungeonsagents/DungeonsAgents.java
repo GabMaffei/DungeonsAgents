@@ -131,16 +131,7 @@ public class DungeonsAgents extends ApplicationAdapter {
 
 		this.containerMap.put("Main-Container", rt.createMainContainer(p));
 
-		ContainerController cc = this.containerMap.get("Main-Container");
-
-		try
-		{
-			cc.createNewAgent("Sword_Skeleton_1", "ai.Mago", new Object[0]).start();
-		}
-		catch (StaleProxyException ex)
-		{
-			System.out.println("Deu ruim em algum agente");
-		}
+		CreateAgents();
 	}
 
 	@Override
@@ -210,5 +201,23 @@ public class DungeonsAgents extends ApplicationAdapter {
 		background.dispose();
 		battlemusic.dispose();
 
+	}
+	private void CreateAgents()
+	{
+		ContainerController cc = this.containerMap.get("Main-Container");
+
+		try
+		{
+			cc.createNewAgent("Mago", "com.mygdx.dungeonsagents.ai.Mago", new Object[]{}).start();
+			cc.createNewAgent("Guerreiro", "com.mygdx.dungeonsagents.ai.Guerreiro", new Object[]{}).start();
+			cc.createNewAgent("Arqueiro", "com.mygdx.dungeonsagents.ai.Arqueiro", new Object[]{}).start();
+			cc.createNewAgent("Orc_Berserker", "com.mygdx.dungeonsagents.ai.Orc_Berserker", new Object[]{}).start();
+			cc.createNewAgent("Orc_Warrior", "com.mygdx.dungeonsagents.ai.Orc_Warrior", new Object[]{}).start();
+			cc.createNewAgent("Orc_Shaman", "com.mygdx.dungeonsagents.ai.Orc_Shaman", new Object[]{}).start();
+		}
+		catch (StaleProxyException ex)
+		{
+			System.out.println("Problema ao criar Agente.");
+		}
 	}
 }
