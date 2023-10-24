@@ -12,6 +12,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import jade.core.Agent;
 
+import static com.badlogic.gdx.math.MathUtils.round;
+
 public class Entity extends Agent {
     private float healthPoints;
     private final boolean ally; // true = Hero/Ally - false = Villain/Enemy
@@ -258,6 +260,14 @@ public class Entity extends Agent {
 
     public float getHealthPoints() {
         return healthPoints;
+    }
+
+    public String getHealthPointsText(){
+        return "HP: " + round(this.healthPoints);
+    }
+
+    public String getCharacterName(){
+        return (this.placement + 1) + " " + this.getFightingClassName();
     }
 
     public Rectangle getPosition() {

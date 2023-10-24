@@ -6,10 +6,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.utils.ScreenUtils;
 import jade.core.Profile;
 import jade.core.ProfileImpl;
@@ -47,6 +44,7 @@ public class DungeonsAgents extends ApplicationAdapter {
 	private float masterVolume;
 	private Entity hero1, hero2, hero3;
 	private Entity enemy1, enemy2, enemy3;
+	private BitmapFont font;
 
 //  Jade
 	private final HashMap<String, ContainerController> containerMap = new HashMap<>();
@@ -109,6 +107,8 @@ public class DungeonsAgents extends ApplicationAdapter {
 		enemy1 = new Entity(false, 0, 0, camera.viewportWidth, camera.viewportHeight);
 		enemy2 = new Entity(false, 1, 1, camera.viewportWidth, camera.viewportHeight);
 		enemy3 = new Entity(false, 2, 2, camera.viewportWidth, camera.viewportHeight);
+
+		font = new BitmapFont();
 
 		// load the drop sound effect and the rain background "music"
 //		dropSound = Gdx.audio.newSound(Gdx.files.internal("drop.wav"));
@@ -175,6 +175,20 @@ public class DungeonsAgents extends ApplicationAdapter {
 		batch.draw(enemy2.currentFrame, enemy2.getPosition().x, enemy2.getPosition().y);
 		batch.draw(enemy3.currentFrame, enemy3.getPosition().x, enemy3.getPosition().y);
 //		sprite_hero_one.draw(batch);
+
+		font.draw(batch, hero1.getHealthPointsText(), hero1.getPosition().x, hero1.getPosition().y);
+		font.draw(batch, hero2.getHealthPointsText(), hero2.getPosition().x, hero2.getPosition().y);
+		font.draw(batch, hero3.getHealthPointsText(), hero3.getPosition().x, hero3.getPosition().y);
+		font.draw(batch, enemy1.getHealthPointsText(), enemy1.getPosition().x, enemy1.getPosition().y);
+		font.draw(batch, enemy2.getHealthPointsText(), enemy2.getPosition().x, enemy2.getPosition().y);
+		font.draw(batch, enemy3.getHealthPointsText(), enemy3.getPosition().x, enemy3.getPosition().y);
+
+		font.draw(batch, hero1.getCharacterName(), hero1.getPosition().x, hero1.getPosition().y + 90);
+		font.draw(batch, hero2.getCharacterName(), hero2.getPosition().x, hero2.getPosition().y + 90);
+		font.draw(batch, hero3.getCharacterName(), hero3.getPosition().x, hero3.getPosition().y + 90);
+		font.draw(batch, enemy1.getCharacterName(), enemy1.getPosition().x, enemy1.getPosition().y + 90);
+		font.draw(batch, enemy2.getCharacterName(), enemy2.getPosition().x, enemy2.getPosition().y + 90);
+		font.draw(batch, enemy3.getCharacterName(), enemy3.getPosition().x, enemy3.getPosition().y + 90);
 
 		// End rendering
 		batch.end();
