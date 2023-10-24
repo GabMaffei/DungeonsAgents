@@ -29,14 +29,18 @@ public class Orc_Warrior extends Entity {
                     if (content.equalsIgnoreCase("SeuTurno")) {
                         int acao = Utils.Dado(2);
                         System.out.println(acao);
-                        if (acao == 1) {
+                        if (acao == 0) {
                             String nomeAlvo = Utils.getNomeAlvo(Utils.Dado(3));
                             enviaMsg(nomeAlvo, "Ataque", "Energia", "" + energy);
                         } else {
                             ataqueEmArea();
                         }
                     } else {
-                        float energiaInimigo = Float.parseFloat(msg.getUserDefinedParameter("Energia"));
+                        String energia = msg.getUserDefinedParameter("Energia");
+                        float energiaInimigo = 0;
+                        if (energia != null) {
+                            energiaInimigo =  Float.parseFloat(energia);
+                        }
                         if (content.equalsIgnoreCase("Ataque")) {
                             healthPoints = Utils.receberAtaque(healthPoints, energiaInimigo, defense, 1);
                         } else {

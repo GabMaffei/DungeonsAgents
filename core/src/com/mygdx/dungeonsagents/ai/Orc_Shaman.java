@@ -26,15 +26,18 @@ public class Orc_Shaman extends Entity {
                     String content = msg.getContent();
                     if (content.equalsIgnoreCase("SeuTurno")) {
                         int acao = Utils.Dado(2);
-                        System.out.println(acao);
-                        if (acao == 1) {
+                        if (acao == 0) {
                             String nomeAlvo = Utils.getNomeAlvo(Utils.Dado(3));
                             enviaMsg(nomeAlvo, "Ataque", "Energia", "" + energy);
                         } else {
-                            ataqueEmArea();
+                            ataqueEmArea(energy);
                         }
                     } else {
-                        float energiaInimigo = Float.parseFloat(msg.getUserDefinedParameter("Energia"));
+                        String energia = msg.getUserDefinedParameter("Energia");
+                        float energiaInimigo = 0;
+                        if (energia != null) {
+                            energiaInimigo =  Float.parseFloat(energia);
+                        }
                         if (content.equalsIgnoreCase("Ataque")) {
                             healthPoints = Utils.receberAtaque(healthPoints, energiaInimigo, defense, 1);
                         } else {
@@ -54,13 +57,13 @@ public class Orc_Shaman extends Entity {
         send(sendMsg);
     }
 
-    public void ataqueEmArea() {
+    public void ataqueEmArea(float energy) {
         ACLMessage sendMsg = new ACLMessage(ACLMessage.INFORM);
         sendMsg.addReceiver(new AID("Arqueiro", AID.ISLOCALNAME));
         sendMsg.addReceiver(new AID("Guerreiro", AID.ISLOCALNAME));
         sendMsg.addReceiver(new AID("Mago", AID.ISLOCALNAME));
         sendMsg.setContent("AtaqueEmArea");
-        sendMsg.addUserDefinedParameter("Energia", "" + this.energy);
+        sendMsg.addUserDefinedParameter("Energia", "" + energy);
         send(sendMsg);
     }
 }

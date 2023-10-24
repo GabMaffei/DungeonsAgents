@@ -7,29 +7,22 @@ import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 
 public class Mestre extends Agent {
-    private int jogadorAtual = 0;
-    private boolean aguardandoConfirmacao = false;
-
-    public void setup() {
+    protected void setup() {
         addBehaviour(new CyclicBehaviour(this) {
             @Override
             public void action() {
-                if (!aguardandoConfirmacao) {
-                    String jogador = Utils.getAgent(jogadorAtual);
+                int count = 0;
+
+                while (count < 6) {
+                    String jogador = Utils.getAgent(count);
                     ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
                     msg.addReceiver(new AID(jogador, AID.ISLOCALNAME));
                     msg.setContent("SeuTurno");
                     send(msg);
 
-                    aguardandoConfirmacao = true;
-                } else {
-                    ACLMessage mensagem = receive();
-                    if (mensagem != null && mensagem.getContent().equals("JogadaConcluida")) {
-                        aguardandoConfirmacao = false;
-                        jogadorAtual++;
-                        if (jogadorAtual >= 6) {
-                            jogadorAtual = 0;
-                        }
+                    ACLMessage confirmationMsg = blockingReceive();
+                    if (confirmationMsg != null && confirmationMsg.getContent().equalsIgnoreCase("AcaoConcluida")) {
+                        count++;
                     }
                 }
             }

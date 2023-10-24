@@ -5,8 +5,11 @@ import com.mygdx.dungeonsagents.Utils;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.core.AID;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class Arqueiro extends Entity {
+    private BlockingQueue<Integer> userInputQueue = new LinkedBlockingQueue<>();
     public Arqueiro() {
         super(true, 0, 0, 1280, 720, 50, 90, 25);
     }
@@ -26,14 +29,20 @@ public class Arqueiro extends Entity {
                     String content = msg.getContent();
                     if (content.equalsIgnoreCase("SeuTurno")) {
                         Utils.exibirAcoes();
-                        int acao = Utils.scanner();
-                        if (acao == 1) {
-                            Utils.exibirAlvos();
-                            int alvo = Utils.scanner();
-                            String nomeAlvo = Utils.getNomeAlvo(alvo);
-                            enviaMsg(nomeAlvo, "Ataque", "Energia", "" + energy);
-                        } else {
-                            ataqueEmArea();
+                        try {
+                            int acao = userInputQueue.take();
+                            if (acao == 1) {
+                                Utils.exibirAlvos();
+                                int alvo = userInputQueue.take();
+                                String nomeAlvo = Utils.getNomeAlvo(alvo);
+                                enviaMsg(nomeAlvo, "Ataque", "Energia", "" + energy);
+                                enviarMsgConfirmacao();
+                            } else {
+                                ataqueEmArea();
+                                enviarMsgConfirmacao();
+                            }
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
                         }
                     } else {
                         float energiaInimigo = Float.parseFloat(msg.getUserDefinedParameter("Energia"));
@@ -66,5 +75,20 @@ public class Arqueiro extends Entity {
         sendMsg.setContent("AtaqueEmArea");
         sendMsg.addUserDefinedParameter("Energia", "" + this.energy);
         send(sendMsg);
+    }
+
+    public void setUserInput(int input) {
+        try {
+            userInputQueue.put(input);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void enviarMsgConfirmacao() {
+        ACLMessage confirmationMsg = new ACLMessage(ACLMessage.INFORM);
+        confirmationMsg.addReceiver(new AID("Mestre", AID.ISLOCALNAME));
+        confirmationMsg.setContent("AcaoConcluida");
+        send(confirmationMsg);
     }
 }

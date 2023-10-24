@@ -62,7 +62,7 @@ public class Utils {
     }
 
     public static void exibirAcoes(){
-        System.out.println("Qual ação deseja fazer?");
+        System.out.println("Qual acao deseja fazer?");
         System.out.println("1 - Ataque");
         System.out.println("2 - Ataque em Area");
     }
