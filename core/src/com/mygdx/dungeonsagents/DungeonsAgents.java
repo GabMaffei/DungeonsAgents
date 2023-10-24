@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
@@ -37,6 +38,7 @@ public class DungeonsAgents extends ApplicationAdapter {
 	private int swordsmanState;
 //  Music and sound effects
 	private Music battlemusic;
+	private Sound basicAttack;
 	private float masterVolume;
 	private Entity hero1, hero2, hero3;
 	private Entity enemy1, enemy2, enemy3;
@@ -114,7 +116,7 @@ public class DungeonsAgents extends ApplicationAdapter {
 		font = new BitmapFont();
 
 		// load the drop sound effect and the rain background "music"
-		// dropSound = Gdx.audio.newSound(Gdx.files.internal("drop.wav"));
+		basicAttack = Gdx.audio.newSound(Gdx.files.internal("whoosh-6316.wav"));
 		battlemusic = Gdx.audio.newMusic(Gdx.files.internal("battlemusic-yeah-18130.mp3"));
 
 		// start the playback of the background music immediately
@@ -200,7 +202,10 @@ public class DungeonsAgents extends ApplicationAdapter {
 		// Game logic
 		if(Gdx.input.isKeyPressed(Input.Keys.MINUS)) volumeControl(false);
 		if(Gdx.input.isKeyPressed(Input.Keys.PLUS) || Gdx.input.isKeyPressed(Input.Keys.EQUALS)) volumeControl(true);
-		if(Gdx.input.isKeyPressed(Input.Keys.NUM_1)) hero1.setAnimationState(2);
+		if(Gdx.input.isKeyPressed(Input.Keys.NUM_1)) {
+            hero1.setAnimationState(2);
+			basicAttack.play();
+        }
 
 		if(hero1.currentAnimation.isAnimationFinished(stateTime) && hero1.getAnimationState() != 0){  //condition false
 			hero1.setAnimationState(0);
@@ -219,8 +224,8 @@ public class DungeonsAgents extends ApplicationAdapter {
 		batch.dispose();
 		background.dispose();
 		battlemusic.dispose();
+		basicAttack.dispose();
 		font.dispose();
-
 	}
 	private void CreateAgents()
 	{
