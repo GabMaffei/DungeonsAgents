@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.utils.ScreenUtils;
 import jade.core.Profile;
 import jade.core.ProfileImpl;
+import jade.domain.introspection.ACLMessage;
 import jade.wrapper.ContainerController;
 import jade.core.Runtime;
 import jade.wrapper.StaleProxyException;
@@ -109,14 +110,12 @@ public class DungeonsAgents extends ApplicationAdapter {
 
 		// entities
 
-		float[] iniciativas = Utils.calcularIniciativa();
-
-		hero1 = new Entity(true, 0, 0, camera.viewportWidth, camera.viewportHeight, 50, 90, 25,0, iniciativas[0]);
-		hero2 = new Entity(true, 1, 1, camera.viewportWidth, camera.viewportHeight, 70, 80, 30,0, iniciativas[1]);
-		hero3 = new Entity(true, 2, 2, camera.viewportWidth, camera.viewportHeight, 40, 100, 20,0, iniciativas[2]);
-		enemy1 = new Entity(false, 0, 0, camera.viewportWidth, camera.viewportHeight, 50, 90, 25,0, iniciativas[3]);
-		enemy2 = new Entity(false, 1, 1, camera.viewportWidth, camera.viewportHeight, 70, 80, 30,0, iniciativas[4]);
-		enemy3 = new Entity(false, 2, 2, camera.viewportWidth, camera.viewportHeight, 40, 100, 20,0, iniciativas[5]);
+		hero1 = new Entity(true, 0, 0, camera.viewportWidth, camera.viewportHeight, 50, 90, 25);
+		hero2 = new Entity(true, 1, 1, camera.viewportWidth, camera.viewportHeight, 70, 80, 30);
+		hero3 = new Entity(true, 2, 2, camera.viewportWidth, camera.viewportHeight, 40, 100, 20);
+		enemy1 = new Entity(false, 0, 0, camera.viewportWidth, camera.viewportHeight, 50, 90, 25);
+		enemy2 = new Entity(false, 1, 1, camera.viewportWidth, camera.viewportHeight, 70, 80, 30);
+		enemy3 = new Entity(false, 2, 2, camera.viewportWidth, camera.viewportHeight, 40, 100, 20);
 
 		font = new BitmapFont();
 
@@ -219,6 +218,7 @@ public class DungeonsAgents extends ApplicationAdapter {
         }
 
 		if(enemy1.getHealthPoints() <= 0 && enemy2.getHealthPoints() <= 0 && enemy3.getHealthPoints() <= 0) gameOver = true;
+
 	}
 	
 	@Override
@@ -234,12 +234,13 @@ public class DungeonsAgents extends ApplicationAdapter {
 
 		try
 		{
+			cc.createNewAgent("Mestre", "com.mygdx.dungeonsagents.ai.Mestre", new Object[]{}).start();
 			cc.createNewAgent("Mago", "com.mygdx.dungeonsagents.ai.Mago", new Object[]{}).start();
 			cc.createNewAgent("Guerreiro", "com.mygdx.dungeonsagents.ai.Guerreiro", new Object[]{}).start();
 			cc.createNewAgent("Arqueiro", "com.mygdx.dungeonsagents.ai.Arqueiro", new Object[]{}).start();
-			cc.createNewAgent("Orc_Berserker", "com.mygdx.dungeonsagents.ai.Orc_Berserker", new Object[]{}).start();
-			cc.createNewAgent("Orc_Warrior", "com.mygdx.dungeonsagents.ai.Orc_Warrior", new Object[]{}).start();
-			cc.createNewAgent("Orc_Shaman", "com.mygdx.dungeonsagents.ai.Orc_Shaman", new Object[]{}).start();
+			cc.createNewAgent("OrcBerserk", "com.mygdx.dungeonsagents.ai.Orc_Berserker", new Object[]{}).start();
+			cc.createNewAgent("OrcWarrior", "com.mygdx.dungeonsagents.ai.Orc_Warrior", new Object[]{}).start();
+			cc.createNewAgent("OrcShaman", "com.mygdx.dungeonsagents.ai.Orc_Shaman", new Object[]{}).start();
 		}
 		catch (StaleProxyException ex)
 		{

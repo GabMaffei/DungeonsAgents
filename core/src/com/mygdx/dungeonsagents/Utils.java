@@ -3,6 +3,7 @@ package com.mygdx.dungeonsagents;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Utils {
     public static int Dado(int tamanho) {
@@ -33,11 +34,8 @@ public class Utils {
         return Math.round(((float) defesa / 100 + 1) * D6());
     }
 
-    public static float receberAtaque(float vidaAtual, float energia, float defesa, String tipoAtaque, String nome) {
-        return receberAtaque(vidaAtual, energia, defesa, tipoAtaque, nome, false);
-    }
 
-    public static float receberAtaque(float vidaAtual, float energia, float defesa, String tipoAtaque, String nome, boolean area) {
+    public static float receberAtaque(float vidaAtual, float energia, float defesa, int tipo) {
         float def = calcularDefesa(defesa);
         float dano = calcularDado(energia);
 
@@ -46,7 +44,7 @@ public class Utils {
             return vidaAtual;
         } else {
             float danoCausado = dano - def;
-            if (area) {
+            if (tipo == 2) {
                 danoCausado = danoCausado / 3;
             }
 
@@ -59,23 +57,51 @@ public class Utils {
 
     public static String ExibeResultadoAtaque(String mensagem) {
         // Implementar chamada da interface gráfica
+        System.out.println(mensagem);
         return mensagem;
     }
 
-    public static float[] calcularIniciativa() {
-        float[] iniciativas = new float[6];
-        int count = 0;
+    public static void exibirAcoes(){
+        System.out.println("Qual ação deseja fazer?");
+        System.out.println("1 - Ataque");
+        System.out.println("2 - Ataque em Area");
+    }
 
-        for (count = 0; count < 6; count++) {
-            if (count == 0 || count == 3) {
-                iniciativas[count] = 0.9f * D20();
-            } else if (count == 1 || count == 4) {
-                iniciativas[count] = 0.8f * D20();
-            } else {
-                iniciativas[count] = 1.0f * D20();
-            }
+    public static void exibirAlvos() {
+        System.out.println("Qual o alvo do seu ataque?");
+        System.out.println("1 - Inimigo 1");
+        System.out.println("2 - Inimigo 2");
+        System.out.println("3 - Inimigo 3");
+    }
+
+    public static int scanner(){
+        Scanner scanner = new Scanner(System.in);
+        return scanner.nextInt();
+    }
+
+    public static String getNomeAlvo(int alvo) {
+        if (alvo == 1) {
+            return "OrcBerserk";
+        } else if (alvo == 2) {
+            return "OrcWarrior";
+        } else {
+            return "OrcShaman";
         }
+    }
 
-        return iniciativas;
+    public static String getAgent(int number) {
+        if (number == 0){
+            return "Arqueiro";
+        } else if (number == 1) {
+            return "OrcBerserk";
+        } else if (number == 2) {
+            return "Guerreiro";
+        } else if (number == 3) {
+            return "OrcWarrior";
+        } else if (number == 4) {
+            return "Mago";
+        } else {
+            return "OrcShaman";
+        }
     }
 }

@@ -8,11 +8,11 @@ import jade.core.AID;
 
 public class Arqueiro extends Entity {
     public Arqueiro() {
-        super(true, 0, 0, 1280, 720, 50, 90, 25, 0, 0);
+        super(true, 0, 0, 1280, 720, 50, 90, 25);
     }
 
-    public Arqueiro(boolean ally, int placement, int fightingClass, float viewportWidth, float viewportHeight, float healthPoints, float energy, float defense, int turno, float iniciativa) {
-        super(ally, placement, fightingClass, viewportWidth, viewportHeight, healthPoints, energy, defense, turno, iniciativa);
+    public Arqueiro(boolean ally, int placement, int fightingClass, float viewportWidth, float viewportHeight, float healthPoints, float energy, float defense) {
+        super(ally, placement, fightingClass, viewportWidth, viewportHeight, healthPoints, energy, defense);
     }
 
     @Override
@@ -24,43 +24,47 @@ public class Arqueiro extends Entity {
 
                 if (msg != null) {
                     String content = msg.getContent();
-                    int energiaInimigo = Integer.parseInt(msg.getUserDefinedParameter("Energia"));
-                    String tipoAtaque = msg.getUserDefinedParameter("TipoAtaque");
-                    if (content.equalsIgnoreCase("Ataque")) {
-                        enviaMsg(msg.getUserDefinedParameter("NomeInimigo"), "Ataque", "Energia", "" + energy, "TipoAtaque", "Flechada");
-                    } else if (content.equalsIgnoreCase("Especial")) {
-
-                    } else if (content.equalsIgnoreCase("AtaqueEmArea")) {
-                        ataqueEmArea();
-                    } else if (content.equalsIgnoreCase("AtaqueInimigo")) {
-                        healthPoints = Utils.receberAtaque(healthPoints,energiaInimigo,defense,tipoAtaque,getLocalName());
-                    } else if (content.equalsIgnoreCase("AtaqueInimigoEmArea")) {
-                        healthPoints = Utils.receberAtaque(healthPoints,energiaInimigo,defense,tipoAtaque, getLocalName(),true);
-                    } else if (content.equalsIgnoreCase("EspecialInimigo")) {
-
+                    if (content.equalsIgnoreCase("SeuTurno")) {
+                        Utils.exibirAcoes();
+                        int acao = Utils.scanner();
+                        if (acao == 1) {
+                            Utils.exibirAlvos();
+                            int alvo = Utils.scanner();
+                            String nomeAlvo = Utils.getNomeAlvo(alvo);
+                            enviaMsg(nomeAlvo, "Ataque", "Energia", "" + energy);
+                        } else {
+                            ataqueEmArea();
+                        }
+                    } else {
+                        float energiaInimigo = Float.parseFloat(msg.getUserDefinedParameter("Energia"));
+                        if (content.equalsIgnoreCase("Ataque")){
+                            healthPoints = Utils.receberAtaque(healthPoints, energiaInimigo, defense, 1);
+                            System.out.println(healthPoints);
+                        } else {
+                            healthPoints = Utils.receberAtaque(healthPoints, energiaInimigo, defense, 2);
+                            System.out.println(healthPoints);
+                        }
                     }
                 }
             }
         });
     }
 
-    public void enviaMsg(String destino, String conteudo, String key1, String value1, String key2, String value2) {
+    public void enviaMsg(String destino, String conteudo, String key1, String value1) {
         ACLMessage sendMsg = new ACLMessage(ACLMessage.INFORM);
         sendMsg.addReceiver(new AID(destino, AID.ISLOCALNAME));
         sendMsg.setContent(conteudo);
         sendMsg.addUserDefinedParameter(key1, value1);
-        sendMsg.addUserDefinedParameter(key2, value2);
         send(sendMsg);
     }
 
     public void ataqueEmArea() {
         ACLMessage sendMsg = new ACLMessage(ACLMessage.INFORM);
-        sendMsg.addReceiver(new AID("enemy1", AID.ISLOCALNAME));
-        sendMsg.addReceiver(new AID("enemy2", AID.ISLOCALNAME));
-        sendMsg.addReceiver(new AID("enemy3", AID.ISLOCALNAME));
+        sendMsg.addReceiver(new AID("OrcBerserk", AID.ISLOCALNAME));
+        sendMsg.addReceiver(new AID("OrcWarrior", AID.ISLOCALNAME));
+        sendMsg.addReceiver(new AID("OrcShaman", AID.ISLOCALNAME));
         sendMsg.setContent("AtaqueEmArea");
         sendMsg.addUserDefinedParameter("Energia", "" + this.energy);
-        sendMsg.addUserDefinedParameter("TipoAtaque", "Chuva de Flechas");
         send(sendMsg);
     }
 }

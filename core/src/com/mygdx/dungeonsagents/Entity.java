@@ -18,8 +18,6 @@ public class Entity extends Agent {
     protected float healthPoints;
     protected float energy;
     protected float defense;
-    protected int turno;
-    protected float iniciativa;
     private final boolean ally; // true = Hero/Ally - false = Villain/Enemy
     private final int placement;
     private final int fightingClass;
@@ -29,7 +27,7 @@ public class Entity extends Agent {
     public Animation<TextureRegion> currentAnimation;
     public TextureRegion currentFrame;
 
-    public Entity(boolean ally, int placement, int fightingClass, float viewportWidth, float viewportHeight, float healthPoints, float energy, float defense, int turno, float iniciativa){
+    public Entity(boolean ally, int placement, int fightingClass, float viewportWidth, float viewportHeight, float healthPoints, float energy, float defense){
         this.ally = ally;
         this.placement = placement;
         this.fightingClass = fightingClass;
@@ -38,8 +36,6 @@ public class Entity extends Agent {
         this.healthPoints = healthPoints;
         this.energy = energy;
         this.defense = defense;
-        this.turno = turno;
-        this.iniciativa = iniciativa;
         this.createPosition(viewportWidth, viewportHeight);
         this.loadAnimations();
     }
