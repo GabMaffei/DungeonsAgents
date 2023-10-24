@@ -45,6 +45,8 @@ public class DungeonsAgents extends ApplicationAdapter {
 	private Entity hero1, hero2, hero3;
 	private Entity enemy1, enemy2, enemy3;
 	private BitmapFont font;
+	public boolean gameOver;
+	public boolean gameLost;
 
 //  Jade
 	private final HashMap<String, ContainerController> containerMap = new HashMap<>();
@@ -89,6 +91,10 @@ public class DungeonsAgents extends ApplicationAdapter {
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 1280, 720);
 		batch = new SpriteBatch();
+
+		// start game
+		gameOver = false;
+		gameLost = false;
 
 		// textures
 		background = new Texture(Gdx.files.internal("background.png"));
@@ -182,6 +188,16 @@ public class DungeonsAgents extends ApplicationAdapter {
 		font.draw(batch, enemy2.getCharacterName(), enemy2.getPosition().x, enemy2.getPosition().y + 90);
 		font.draw(batch, enemy3.getCharacterName(), enemy3.getPosition().x, enemy3.getPosition().y + 90);
 
+		if(gameOver){
+			font.draw(batch, "Fim de jogo", camera.viewportWidth / 2, camera.viewportHeight / 2);
+			if(gameLost){
+				font.draw(batch, "Você perdeu", camera.viewportWidth / 2, (camera.viewportHeight / 2) - 20);
+			}
+			else{
+				font.draw(batch, "Você ganhou", camera.viewportWidth / 2, (camera.viewportHeight / 2) - 20);
+			};
+		}
+
 		// End rendering
 		batch.end();
 
@@ -194,6 +210,12 @@ public class DungeonsAgents extends ApplicationAdapter {
 			hero1.setAnimationState(0);
 		}
 
+		if(hero1.getHealthPoints() <= 0 && hero2.getHealthPoints() <= 0 && hero3.getHealthPoints() <= 0) {
+            gameOver = true;
+			gameLost = true;
+        }
+
+		if(enemy1.getHealthPoints() <= 0 && enemy2.getHealthPoints() <= 0 && enemy3.getHealthPoints() <= 0) gameOver = true;
 	}
 	
 	@Override
