@@ -10,8 +10,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import jade.core.Agent;
 
-public class Entity {
+public class Entity extends Agent {
     private float healthPoints;
     private final boolean ally; // true = Hero/Ally - false = Villain/Enemy
     private final int placement;

@@ -13,12 +13,16 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.ScreenUtils;
 import jade.core.Profile;
 import jade.core.ProfileImpl;
+import jade.wrapper.ContainerController;
+import jade.core.Runtime;
+import jade.wrapper.StaleProxyException;
 //import jade.tools.rma.rma;
 //import jade.wrapper.AgentController;
 //import jade.wrapper.ContainerController;
 //import jade.wrapper.StaleProxyException;
 
 import java.awt.*;
+import java.util.HashMap;
 
 public class DungeonsAgents extends ApplicationAdapter {
 //	Cameras and batches/SpriteBatches
@@ -43,6 +47,9 @@ public class DungeonsAgents extends ApplicationAdapter {
 	private float masterVolume;
 	private Entity hero1, hero2, hero3;
 	private Entity enemy1, enemy2, enemy3;
+
+//  Jade
+	private final HashMap<String, ContainerController> containerMap = new HashMap<>();
 
 	public void volumeControl(boolean volumeKnob){
 		if(volumeKnob) {
@@ -113,23 +120,27 @@ public class DungeonsAgents extends ApplicationAdapter {
 		battlemusic.play();
 		battlemusic.setVolume(masterVolume);
 
-		Profile profile = new ProfileImpl();
-//		profile.setParameter(Profile.GUI, "true"); // Enable the JADE GUI
-////		ContainerController container = Runtime..createMainContainer(profile);
+		// Jade initialize
 
-//		try {
-//			// Start your JADE agents
-////			AgentController myAgent = container.createNewAgent("myAgent", "com.example.MyAgent", new Object[0]);
-////			myAgent.start();
-//
-//			// Start the JADE GUI
-//			rma r = new rma();
-//			r.join();
-//			// -gui Aliado1:Mago;Aliado2:Mago;Aliado3:Mago;Inimigo1:GoblinGuerreiro;Inimigo2:GoblinGuerreiro;Inimigo3:GoblinGuerreiro;Mestre:Mestre;
-//		} catch (StaleProxyException e) {
-//			e.printStackTrace();
-//		}
+		Runtime rt = Runtime.instance();
+		Profile p = new ProfileImpl();
+		p.setParameter(Profile.MAIN_HOST, "localhost");
+		p.setParameter(Profile.MAIN_PORT, "1099");
+		p.setParameter(Profile.CONTAINER_NAME, "Main-Container");
+		p.setParameter(Profile.GUI, "true");
 
+		this.containerMap.put("Main-Container", rt.createMainContainer(p));
+
+		ContainerController cc = this.containerMap.get("Main-Container");
+
+		try
+		{
+			cc.createNewAgent("Sword_Skeleton_1", "ai.Mago", new Object[0]).start();
+		}
+		catch (StaleProxyException ex)
+		{
+			System.out.println("Deu ruim em algum agente");
+		}
 	}
 
 	@Override
