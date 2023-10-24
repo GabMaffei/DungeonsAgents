@@ -219,6 +219,7 @@ public class DungeonsAgents extends ApplicationAdapter {
 		batch.dispose();
 		background.dispose();
 		battlemusic.dispose();
+		font.dispose();
 
 	}
 	private void CreateAgents()
