@@ -14,6 +14,7 @@ import jade.core.Profile;
 import jade.core.ProfileImpl;
 import jade.wrapper.ContainerController;
 import jade.core.Runtime;
+import jade.wrapper.ControllerException;
 import jade.wrapper.StaleProxyException;
 import java.awt.*;
 import java.util.HashMap;
@@ -198,6 +199,11 @@ public class DungeonsAgents extends ApplicationAdapter {
 
 		// End rendering
 		batch.end();
+
+		if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+			Gdx.app.exit();
+			System.exit(0);
+        }
 
 		// Game logic
 		if(Gdx.input.isKeyPressed(Input.Keys.MINUS)) volumeControl(false);
