@@ -8,16 +8,12 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.mygdx.dungeonsagents.ai.*;
 import jade.core.Profile;
 import jade.core.ProfileImpl;
 import jade.wrapper.ContainerController;
 import jade.core.Runtime;
 import jade.wrapper.StaleProxyException;
-//import jade.tools.rma.rma;
-//import jade.wrapper.AgentController;
-//import jade.wrapper.ContainerController;
-//import jade.wrapper.StaleProxyException;
-
 import java.awt.*;
 import java.util.HashMap;
 
@@ -100,25 +96,25 @@ public class DungeonsAgents extends ApplicationAdapter {
 		background = new Texture(Gdx.files.internal("background.png"));
 
 		// sprites
-//		sprite_hero_one = new Sprite(tex_hero_one, 0, 0, 128, 128);
-//		sprite_hero_one.setPosition(10, 10);
+		// sprite_hero_one = new Sprite(tex_hero_one, 0, 0, 128, 128);
+		// sprite_hero_one.setPosition(10, 10);
 
 		// animations
 		stateTime = 0f;
 
 		// entities
 
-		hero1 = new Entity(true, 0, 0, camera.viewportWidth, camera.viewportHeight, 50, 90, 25);
-		hero2 = new Entity(true, 1, 1, camera.viewportWidth, camera.viewportHeight, 70, 80, 30);
-		hero3 = new Entity(true, 2, 2, camera.viewportWidth, camera.viewportHeight, 40, 100, 20);
-		enemy1 = new Entity(false, 0, 0, camera.viewportWidth, camera.viewportHeight, 50, 90, 25);
-		enemy2 = new Entity(false, 1, 1, camera.viewportWidth, camera.viewportHeight, 70, 80, 30);
-		enemy3 = new Entity(false, 2, 2, camera.viewportWidth, camera.viewportHeight, 40, 100, 20);
+		hero1 = new Arqueiro();
+		hero2 = new Guerreiro();
+		hero3 = new Mago();
+		enemy1 = new Orc_Berserker();
+		enemy2 = new Orc_Warrior();
+		enemy3 = new Orc_Shaman();
 
 		font = new BitmapFont();
 
 		// load the drop sound effect and the rain background "music"
-//		dropSound = Gdx.audio.newSound(Gdx.files.internal("drop.wav"));
+		// dropSound = Gdx.audio.newSound(Gdx.files.internal("drop.wav"));
 		battlemusic = Gdx.audio.newMusic(Gdx.files.internal("battlemusic-yeah-18130.mp3"));
 
 		// start the playback of the background music immediately
@@ -172,7 +168,7 @@ public class DungeonsAgents extends ApplicationAdapter {
 		batch.draw(enemy1.currentFrame, enemy1.getPosition().x, enemy1.getPosition().y);
 		batch.draw(enemy2.currentFrame, enemy2.getPosition().x, enemy2.getPosition().y);
 		batch.draw(enemy3.currentFrame, enemy3.getPosition().x, enemy3.getPosition().y);
-//		sprite_hero_one.draw(batch);
+		// sprite_hero_one.draw(batch);
 
 		font.draw(batch, hero1.getHealthPointsText(), hero1.getPosition().x, hero1.getPosition().y);
 		font.draw(batch, hero2.getHealthPointsText(), hero2.getPosition().x, hero2.getPosition().y);
