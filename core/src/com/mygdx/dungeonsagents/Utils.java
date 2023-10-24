@@ -25,19 +25,19 @@ public class Utils {
         return random.nextInt(6);
     }
 
-    public static float calcularDado(int energia) {
+    public static float calcularDado(float energia) {
         return Math.round(((float) energia / 100 + 1) * D20());
     }
 
-    public static float calcularDefesa(int defesa) {
+    public static float calcularDefesa(float defesa) {
         return Math.round(((float) defesa / 100 + 1) * D6());
     }
 
-    public static int receberAtaque(int vidaAtual, int energia, int defesa, String tipoAtaque, String nome) {
+    public static float receberAtaque(float vidaAtual, float energia, float defesa, String tipoAtaque, String nome) {
         return receberAtaque(vidaAtual, energia, defesa, tipoAtaque, nome, false);
     }
 
-    public static int receberAtaque(int vidaAtual, int energia, int defesa, String tipoAtaque, String nome, boolean area) {
+    public static float receberAtaque(float vidaAtual, float energia, float defesa, String tipoAtaque, String nome, boolean area) {
         float def = calcularDefesa(defesa);
         float dano = calcularDado(energia);
 
