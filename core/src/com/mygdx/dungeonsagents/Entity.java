@@ -15,7 +15,9 @@ import jade.core.Agent;
 import static com.badlogic.gdx.math.MathUtils.round;
 
 public class Entity extends Agent {
-    private float healthPoints;
+    protected float healthPoints;
+    protected float energy;
+    protected float defense;
     private final boolean ally; // true = Hero/Ally - false = Villain/Enemy
     private final int placement;
     private final int fightingClass;
@@ -25,12 +27,15 @@ public class Entity extends Agent {
     public Animation<TextureRegion> currentAnimation;
     public TextureRegion currentFrame;
 
-    public Entity(boolean ally, int placement, int fightingClass, float viewportWidth, float viewportHeight){
+    public Entity(boolean ally, int placement, int fightingClass, float viewportWidth, float viewportHeight, float healthPoints, float energy, float defense){
         this.ally = ally;
         this.placement = placement;
         this.fightingClass = fightingClass;
         this.animationState = 0;
         this.looping = true;
+        this.healthPoints = healthPoints;
+        this.energy = energy;
+        this.defense = defense;
         this.createPosition(viewportWidth, viewportHeight);
         this.loadAnimations();
     }

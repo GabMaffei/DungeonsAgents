@@ -101,12 +101,13 @@ public class DungeonsAgents extends ApplicationAdapter {
 		stateTime = 0f;
 
 		// entities
-		hero1 = new Entity(true, 0, 0, camera.viewportWidth, camera.viewportHeight);
-		hero2 = new Entity(true, 1, 1, camera.viewportWidth, camera.viewportHeight);
-		hero3 = new Entity(true, 2, 2, camera.viewportWidth, camera.viewportHeight);
-		enemy1 = new Entity(false, 0, 0, camera.viewportWidth, camera.viewportHeight);
-		enemy2 = new Entity(false, 1, 1, camera.viewportWidth, camera.viewportHeight);
-		enemy3 = new Entity(false, 2, 2, camera.viewportWidth, camera.viewportHeight);
+
+		hero1 = new Entity(true, 0, 0, camera.viewportWidth, camera.viewportHeight, 50, 90, 25);
+		hero2 = new Entity(true, 1, 1, camera.viewportWidth, camera.viewportHeight, 70, 80, 30);
+		hero3 = new Entity(true, 2, 2, camera.viewportWidth, camera.viewportHeight, 40, 100, 20);
+		enemy1 = new Entity(false, 0, 0, camera.viewportWidth, camera.viewportHeight, 50, 90, 25);
+		enemy2 = new Entity(false, 1, 1, camera.viewportWidth, camera.viewportHeight, 70, 80, 30);
+		enemy3 = new Entity(false, 2, 2, camera.viewportWidth, camera.viewportHeight, 40, 100, 20);
 
 		font = new BitmapFont();
 
